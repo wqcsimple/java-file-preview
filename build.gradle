@@ -1,0 +1,100 @@
+group 'com.whis'
+version '1.0-SNAPSHOT'
+
+buildscript {
+    ext {
+        kotlinVersion = '1.2.31'
+        springBootVersion = '2.0.1.RELEASE'
+        springVersion = '5.0.5.RELEASE'
+    }
+    repositories {
+        maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
+        maven { url 'http://maven.aliyun.com/nexus/content/repositories/jcenter' }
+        jcenter()
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlinVersion}")
+        classpath("org.jetbrains.kotlin:kotlin-allopen:${kotlinVersion}")
+    }
+}
+
+
+apply plugin: 'java'
+apply plugin: 'kotlin'
+apply plugin: 'idea'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+sourceCompatibility = 1.8
+
+compileKotlin {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}
+
+compileTestKotlin {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}
+
+bootJar {
+    baseName = 'app'
+    version =  ''
+}
+
+repositories {
+    maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
+    maven { url 'http://maven.aliyun.com/nexus/content/repositories/jcenter' }
+    maven { url "https://jitpack.io" }
+    mavenCentral()
+    jcenter()
+    mavenCentral()
+}
+
+dependencies {
+
+    // base
+    compile group: 'com.jayway.jsonpath', name: 'json-path', version: '2.4.0'
+    compile 'com.google.code.gson:gson:2.8.2'
+    compile 'com.google.guava:guava:24.0-jre'
+    compile 'org.apache.commons:commons-lang3:3.7'
+    compile group: 'org.apache.commons', name: 'commons-email', version: '1.5'
+    compile group: 'commons-codec', name: 'commons-codec', version: '1.11'
+    compile group: 'commons-io', name: 'commons-io', version: '2.6'
+    compile group: 'commons-beanutils', name: 'commons-beanutils', version: '1.9.3'
+    compile group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.5'
+    compile group: 'io.reactivex.rxjava2', name: 'rxjava', version: '2.1.10'
+
+    // db
+    compile 'mysql:mysql-connector-java:5.1.45'
+    compile 'redis.clients:jedis:2.9.0'
+    compile 'org.jooq:jooq:3.10.2'
+    compile 'org.apache.tomcat:tomcat-jdbc:9.0.5'
+
+    // http request
+    compile 'com.squareup.okhttp3:okhttp:3.10.0'
+
+    // spring
+    compile 'org.mybatis.spring.boot:mybatis-spring-boot-starter:1.3.1'
+    compile group: 'org.springframework', name: 'spring-jdbc', version: "$springVersion"
+
+    compile "org.springframework.boot:spring-boot-starter-web:$springBootVersion"
+    compile "org.springframework.boot:spring-boot-starter-freemarker:$springBootVersion"
+    compile "org.springframework.boot:spring-boot-devtools:$springBootVersion"
+    compile "org.springframework.boot:spring-boot-properties-migrator:$springBootVersion"
+
+
+    // test
+    compile("org.springframework.boot:spring-boot-starter-undertow:$springBootVersion")
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion"
+    compile "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion"
+
+    testCompile("org.junit.jupiter:junit-jupiter-api:5.1.0")
+    testRuntime("org.junit.jupiter:junit-jupiter-engine:5.0.1")
+    testCompile('com.github.sbrannen:spring-test-junit5:1.0.3')
+    testCompile("org.springframework.boot:spring-boot-starter-test:$springBootVersion")
+}
